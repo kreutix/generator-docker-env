@@ -1,0 +1,95 @@
+version: '2'
+services:<% if (has.php) { %>
+  app:
+    build:
+      context: docker/php/
+    labels:
+      traefik.enable: true
+      traefik.docker.network: traefik
+      traefik.frontend.rule: "Host:<%= hostname %>"
+    volumes:
+      - ./public/:/app/
+    env_file:
+      - .env
+    networks:
+      - default
+      - traefik
+<% } %><% if (has.mysql) { %>
+  mysql:
+    build:
+      context: docker/mysql/
+    volumes:
+      - ./storage/mysql:/var/lib/mysql
+    env_file:
+      - .env
+<% } %><% if (has.postgres) { %>
+  postgres:
+    build:
+      context: docker/postgres/
+      dockerfile: Postgres-9.4.Dockerfile
+      dockerfile: Postgres-9.5.Dockerfile
+    ports:
+      - 15432:5432
+    volumes:
+      - solr:/opt/solr/server/solr/data
+    env_file:
+      - .env
+<% } %><% if (has.solr) { %>
+  solr:
+    build:
+      context: docker/solr/
+    ports:
+      - 18983:8983
+    volumes:
+      - solr:/opt/solr/server/solr/data
+    environment:
+      - SOLR_STORAGE=/opt/solr/server/solr/data
+    env_file:
+      - .env
+<% } %><% if (has.elasticsearch) { %>
+  elasticsearch:
+    build:
+      context: docker/elasticsearch/
+    ports:
+      - 19200:9200
+      - 19300:9300
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+    env_file:
+      - .env
+<% } %><% if (has.redis) { %>
+  redis:
+    build:
+      context: docker/redis/
+    volumes:
+      - redis:/data
+    env_file:
+      - .env
+<% } %><% if (has.memcached) { %>
+  memcached:
+    build:
+      context: docker/memcached/
+    env_file:
+      - .env
+<% } %><% if (has.ftp) { %>
+  ftp:
+    build:
+      context: docker/vsftp/
+    volumes:
+      - ./:/application/
+    env_file:
+      - .env
+<% } %>
+networks:
+  default:
+  traefik:
+    external: true
+<% if (has.volumes) { %>
+volumes:<% if (has.postgres) { %>
+  postgres:<% } %><% if (has.solr) { %>
+  solr:<% } %><% if (has.elasticsearch) { %>
+  elasticsearch:<% } %><% if (has.redis) { %>
+  redis:<% } %><% if (has.phpmyadmin) { %>
+  phpmyadmin:<% } %>
+<% } %>
+

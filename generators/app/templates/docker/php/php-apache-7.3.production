@@ -1,0 +1,9 @@
+FROM webdevops/php-apache:7.3
+
+ENV PROVISION_CONTEXT "production"
+
+# Deploy scripts/configurations
+ADD conf/php.ini /opt/docker/etc/php/php.ini
+
+# Configure volume/workdir
+WORKDIR /app/
