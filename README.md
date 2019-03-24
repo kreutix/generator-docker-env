@@ -16,6 +16,10 @@ Then generate your new project:
 yo docker-env
 ```
 
+## Docker Template
+
+The docker template is based on the [php-docker-boilderplate](https://github.com/webdevops/php-docker-boilerplate) from [webdevops](https://webdevops.io/).
+
 ## Getting To Know Yeoman
 
  * Yeoman has a heart of gold.
