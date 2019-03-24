@@ -7,7 +7,7 @@ First, install [Yeoman](http://yeoman.io) and generator-docker-env using [npm](h
 
 ```bash
 npm install -g yo
-npm install -g generator-docker-env
+npm install -g generator-docker-env  # not yet available on the npmjs.com repository
 ```
 
 Then generate your new project:
