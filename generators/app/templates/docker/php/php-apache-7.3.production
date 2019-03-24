@@ -5,5 +5,11 @@ ENV PROVISION_CONTEXT "production"
 # Deploy scripts/configurations
 ADD conf/php.ini /opt/docker/etc/php/php.ini
 
+<% if (install.composer) { %>
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php
+RUN mv composer.phar /usr/local/bin/composer
+<% } %>
+
 # Configure volume/workdir
 WORKDIR /app/

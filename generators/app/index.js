@@ -38,6 +38,9 @@ module.exports = class extends Generator {
         php: true,
         mysql: true,
       },
+      install: {
+        composer: true,
+      },
       mysql: {
         user: 'app',
         pass: uuid(),
@@ -50,7 +53,7 @@ module.exports = class extends Generator {
       ['copyTpl', 'etc/environment.yml', '.env'],
     ]
     if (config.has.php) {
-      productionSet.push(['copy', 'docker/php/php-apache-7.3.production', 'docker/php/Dockerfile'])
+      productionSet.push(['copyTpl', 'docker/php/php-apache-7.3.production', 'docker/php/Dockerfile'])
       productionSet.push(['copy', 'docker/php/conf/production.ini', 'docker/php/conf/php.ini'])
     }
     if (config.has.mysql) {
